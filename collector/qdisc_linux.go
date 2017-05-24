@@ -26,11 +26,14 @@ import (
 )
 
 type qdiscStatCollector struct {
-	bytes      typedDesc
-	packets    typedDesc
-	drops      typedDesc
-	requeues   typedDesc
-	overlimits typedDesc
+	bytes       typedDesc
+	packets     typedDesc
+	drops       typedDesc
+	requeues    typedDesc
+	overlimits  typedDesc
+	gcflows     typedDesc
+	throttled   typedDesc
+	flowsplimit typedDesc
 }
 
 var (
@@ -66,6 +69,21 @@ func NewQdiscStatCollector() (Collector, error) {
 		overlimits: typedDesc{prometheus.NewDesc(
 			prometheus.BuildFQName(Namespace, "qdisc", "overlimits_total"),
 			"Number of overlimit packets.",
+			[]string{"device", "kind"}, nil,
+		), prometheus.CounterValue},
+		gcflows: typedDesc{prometheus.NewDesc(
+			prometheus.BuildFQName(Namespace, "qdisc", "gcflows_total"),
+			"Number of gcflows.",
+			[]string{"device", "kind"}, nil,
+		), prometheus.CounterValue},
+		throttled: typedDesc{prometheus.NewDesc(
+			prometheus.BuildFQName(Namespace, "qdisc", "throttled_total"),
+			"Number of throttled flows.",
+			[]string{"device", "kind"}, nil,
+		), prometheus.CounterValue},
+		flowsplimit: typedDesc{prometheus.NewDesc(
+			prometheus.BuildFQName(Namespace, "qdisc", "flows_plimit_total"),
+			"flows_plimit_total",
 			[]string{"device", "kind"}, nil,
 		), prometheus.CounterValue},
 	}, nil
@@ -110,6 +128,9 @@ func (c *qdiscStatCollector) Update(ch chan<- prometheus.Metric) error {
 		ch <- c.drops.mustNewConstMetric(float64(msg.Drops), msg.IfaceName, msg.Kind)
 		ch <- c.requeues.mustNewConstMetric(float64(msg.Requeues), msg.IfaceName, msg.Kind)
 		ch <- c.overlimits.mustNewConstMetric(float64(msg.Overlimits), msg.IfaceName, msg.Kind)
+		ch <- c.gcflows.mustNewConstMetric(float64(msg.GcFlows), msg.IfaceName, msg.Kind)
+		ch <- c.throttled.mustNewConstMetric(float64(msg.Throttled), msg.IfaceName, msg.Kind)
+		ch <- c.flowsplimit.mustNewConstMetric(float64(msg.FlowsPlimit), msg.IfaceName, msg.Kind)
 	}
 
 	return nil

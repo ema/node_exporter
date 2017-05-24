@@ -2122,6 +2122,14 @@ node_qdisc_bytes_total{device="wlan0",kind="fq"} 42
 # TYPE node_qdisc_drops_total counter
 node_qdisc_drops_total{device="eth0",kind="pfifo_fast"} 0
 node_qdisc_drops_total{device="wlan0",kind="fq"} 1
+# HELP node_qdisc_flows_plimit_total flows_plimit_total
+# TYPE node_qdisc_flows_plimit_total counter
+node_qdisc_flows_plimit_total{device="eth0",kind="pfifo_fast"} 0
+node_qdisc_flows_plimit_total{device="wlan0",kind="fq"} 12
+# HELP node_qdisc_gcflows_total Number of gcflows.
+# TYPE node_qdisc_gcflows_total counter
+node_qdisc_gcflows_total{device="eth0",kind="pfifo_fast"} 0
+node_qdisc_gcflows_total{device="wlan0",kind="fq"} 0
 # HELP node_qdisc_overlimits_total Number of overlimit packets.
 # TYPE node_qdisc_overlimits_total counter
 node_qdisc_overlimits_total{device="eth0",kind="pfifo_fast"} 0
@@ -2134,6 +2142,10 @@ node_qdisc_packets_total{device="wlan0",kind="fq"} 42
 # TYPE node_qdisc_requeues_total counter
 node_qdisc_requeues_total{device="eth0",kind="pfifo_fast"} 2
 node_qdisc_requeues_total{device="wlan0",kind="fq"} 1
+# HELP node_qdisc_throttled_total Number of throttled flows.
+# TYPE node_qdisc_throttled_total counter
+node_qdisc_throttled_total{device="eth0",kind="pfifo_fast"} 2017
+node_qdisc_throttled_total{device="wlan0",kind="fq"} 0
 # HELP node_scrape_collector_duration_seconds node_exporter: Duration of a collector scrape.
 # TYPE node_scrape_collector_duration_seconds gauge
 # HELP node_scrape_collector_success node_exporter: Whether a collector succeeded.

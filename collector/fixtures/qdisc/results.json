@@ -5,13 +5,15 @@
         "Packets": 42,
         "Requeues": 1,
         "Kind": "fq",
-        "Drops": 1
+        "Drops": 1,
+        "FlowsPlimit": 12
     },
     {
         "IfaceName": "eth0",
         "Bytes": 83,
         "Packets": 83,
         "Requeues": 2,
-        "Kind": "pfifo_fast"
+        "Kind": "pfifo_fast",
+        "Throttled": 2017
     }
 ]
